@@ -88,6 +88,18 @@ export const excluirResponsavel = async (
   }
 
   try {
+    const checkQuery =
+      "SELECT COUNT(*) AS count FROM crianca WHERE fk_cpf_responsavel = ?";
+    const [checkResult] = await pool.query(checkQuery, [cpf]);
+    const [{ count }] = checkResult as any;
+
+    if (count > 0) {
+      return res.status(400).json({
+        error:
+          "Não é possível excluir o responsável, pois ele está associado a uma ou mais crianças.",
+      });
+    }
+
     const query = "DELETE FROM responsavel WHERE cpf = ?";
     const [result] = await pool.query(query, [cpf]);
 
@@ -95,7 +107,9 @@ export const excluirResponsavel = async (
       return res.status(404).json({ message: "Responsável não encontrado." });
     }
 
-    return res.status(200).json({ message: "Responsável excluído com sucesso!" });
+    return res
+      .status(200)
+      .json({ message: "Responsável excluído com sucesso!" });
   } catch (e) {
     console.error(`Erro ao excluir responsável: ${e}`);
     return res.status(500).json({ message: "Erro ao excluir responsável." });
