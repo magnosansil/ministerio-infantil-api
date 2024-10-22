@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Responsavel } from "../types";
 import { pool } from "../database";
 import { validarCPF } from "../utils/validarCPF";
-import { QueryResult } from "mysql2";
+import { QueryResult, RowDataPacket } from "mysql2";
 
 // Cadastrar
 export const cadastrarResponsavel = async (
@@ -115,3 +115,59 @@ export const excluirResponsavel = async (
     return res.status(500).json({ message: "Erro ao excluir responsável." });
   }
 };
+
+export const atualizarResponsavel = async (
+  req: Request<{ cpf: string }, {}, Partial<Responsavel>>, 
+  res: Response
+): Promise<Response> => {
+  const { cpf } = req.params;
+  const { nome, telefone, relacionamento, idade } = req.body;
+
+  if (!validarCPF(cpf)) {
+    return res.status(400).json({ error: "CPF inválido." });
+  }
+
+  try {
+    const checkQuery = "SELECT * FROM responsavel WHERE cpf = ?";
+    const [checkResult] = await pool.query<RowDataPacket[]>(checkQuery, [cpf]);
+
+    if (checkResult.length === 0) {
+      return res.status(404).json({ message: "Responsável não encontrado." });
+    }
+
+    const updates: string[] = [];
+    const values: any[] = [];
+
+    if (nome) {
+      updates.push("nome = ?");
+      values.push(nome);
+    }
+    if (telefone) {
+      updates.push("telefone = ?");
+      values.push(telefone);
+    }
+    if (relacionamento) {
+      updates.push("relacionamento = ?");
+      values.push(relacionamento);
+    }
+    if (idade) {
+      updates.push("idade = ?");
+      values.push(idade);
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({ error: "Nenhum campo foi fornecido para atualização." });
+    }
+
+    const updateQuery = `UPDATE responsavel SET ${updates.join(", ")} WHERE cpf = ?`;
+    values.push(cpf);
+
+    await pool.query(updateQuery, values);
+
+    return res.status(200).json({ message: "Dados do responsável atualizados com sucesso!" });
+  } catch (e) {
+    console.error(`Erro ao atualizar responsável: ${e}`);
+    return res.status(500).json({ message: "Erro ao atualizar responsável." });
+  }
+};
+
