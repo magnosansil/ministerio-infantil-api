@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  atualizarResponsavel,
   buscarResponsavelPorCPF,
   buscarTodosResponsaveis,
   cadastrarResponsavel,
@@ -16,3 +17,5 @@ responsavelRouter.get("/todos", buscarTodosResponsaveis);
 responsavelRouter.get('/:cpf', buscarResponsavelPorCPF);
 // Excluir
 responsavelRouter.delete('/:cpf', excluirResponsavel);
+// Atualizar (PATCH)
+responsavelRouter.patch("/:cpf", atualizarResponsavel);
