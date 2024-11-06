@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { buscarTodasCriancas } from "../database/criancaQueries";
+import { buscarCriancaPorId, buscarTodasCriancas } from "../database/criancaQueries";
 import { Crianca } from "../types";
 import { pool } from "../database";
 import { verificarExistenciaResponsavel } from "../database/criancaQueries";
@@ -22,6 +22,21 @@ export class CriancaController {
     }
   };
 
+  // Buscar por id
+  buscarPorId = async (req: Request<{ id: string }>, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    try {
+      const crianca = await buscarCriancaPorId(Number(id));
+      if (!crianca) {
+        return res.status(404).json({ message: "Criança não encontrada." });
+      }
+      return res.status(200).json(crianca);
+    } catch (e) {
+      console.error(`Erro ao buscar criança por id: ${e}`);
+      return res.status(500).json({ message: "Erro ao buscar criança." });
+    }
+  };
   // Cadastrar
   cadastrarCrianca = async (
     req: Request<{}, {}, Partial<Crianca>>,

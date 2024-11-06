@@ -19,7 +19,9 @@ responsavelRouter.delete("/:cpf", responsavelCtrl.excluirResponsavel);
 // Atualizar (PATCH)
 responsavelRouter.patch("/:cpf", responsavelCtrl.atualizarResponsavel);
 
-// Buscar todas
-criancaRouter.get("/todos", criancaCtrl.buscarTodas);
 // Cadastrar
 criancaRouter.post("/cadastrar", criancaCtrl.cadastrarCrianca);
+// Buscar todas
+criancaRouter.get("/todos", criancaCtrl.buscarTodas);
+// Buscar por ID
+criancaRouter.get("/:id", criancaCtrl.buscarPorId);
