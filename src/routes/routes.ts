@@ -27,3 +27,5 @@ criancaRouter.get("/todos", criancaCtrl.buscarTodas);
 criancaRouter.get("/:id", criancaCtrl.buscarPorId);
 // Deletar
 criancaRouter.delete("/:id", criancaCtrl.deletarCrianca);
+// Atualizar
+criancaRouter.patch("/:id", criancaCtrl.atualizarCrianca);
