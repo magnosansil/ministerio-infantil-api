@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { buscarCriancaPorId, buscarTodasCriancas } from "../database/criancaQueries";
+import {
+  buscarCriancaPorId,
+  buscarTodasCriancas,
+  deletarCriancaPorId,
+} from "../database/criancaQueries";
 import { Crianca } from "../types";
 import { pool } from "../database";
 import { verificarExistenciaResponsavel } from "../database/criancaQueries";
@@ -23,7 +27,10 @@ export class CriancaController {
   };
 
   // Buscar por id
-  buscarPorId = async (req: Request<{ id: string }>, res: Response): Promise<Response> => {
+  buscarPorId = async (
+    req: Request<{ id: string }>,
+    res: Response
+  ): Promise<Response> => {
     const { id } = req.params;
 
     try {
@@ -73,11 +80,9 @@ export class CriancaController {
       fk_cpf_responsavel
     );
     if (!responsavel1Existe) {
-      return res
-        .status(400)
-        .json({
-          error: "O primeiro responsável informado não existe no sistema.",
-        });
+      return res.status(400).json({
+        error: "O primeiro responsável informado não existe no sistema.",
+      });
     }
 
     if (cpf_responsavel_2) {
@@ -85,11 +90,9 @@ export class CriancaController {
         cpf_responsavel_2
       );
       if (!responsavel2Existe) {
-        return res
-          .status(400)
-          .json({
-            error: "O segundo responsável informado não existe no sistema.",
-          });
+        return res.status(400).json({
+          error: "O segundo responsável informado não existe no sistema.",
+        });
       }
     }
 
@@ -125,6 +128,26 @@ export class CriancaController {
         .json({ message: "Criança cadastrada com sucesso!" });
     } catch (e) {
       return res.status(500).json({ message: "Erro ao cadastrar criança." });
+    }
+  };
+
+  // Deletar
+  deletarCrianca = async (
+    req: Request<{ id: string }>,
+    res: Response
+  ): Promise<Response> => {
+    const { id } = req.params;
+
+    try {
+      const criancaExcluida = await deletarCriancaPorId(Number(id));
+
+      if (!criancaExcluida) {
+        return res.status(404).json({ message: "Criança não encontrada." });
+      }
+
+      return res.status(200).json({ message: "Criança excluída com sucesso!" });
+    } catch (e) {
+      return res.status(500).json({ message: "Erro ao excluir criança." });
     }
   };
 }

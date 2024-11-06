@@ -25,3 +25,5 @@ criancaRouter.post("/cadastrar", criancaCtrl.cadastrarCrianca);
 criancaRouter.get("/todos", criancaCtrl.buscarTodas);
 // Buscar por ID
 criancaRouter.get("/:id", criancaCtrl.buscarPorId);
+// Deletar
+criancaRouter.delete("/:id", criancaCtrl.deletarCrianca);
