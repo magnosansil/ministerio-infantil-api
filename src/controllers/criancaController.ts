@@ -13,7 +13,6 @@ import {
   validarRestricao,
   validarTurma,
 } from "../utils/validadores";
-import { validarCPF } from "../utils/validarCPF";
 
 export class CriancaController {
   // Buscar todas
