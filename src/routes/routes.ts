@@ -1,12 +1,15 @@
 import { Router } from "express";
 import { ResponsavelController } from "../controllers/responsavelController";
 import { CriancaController } from "../controllers/criancaController";
+import { ProfessorController } from "../controllers/professorController";
 
 const responsavelCtrl = new ResponsavelController();
 const criancaCtrl = new CriancaController();
+const professorCtrl = new ProfessorController();
 
 export const responsavelRouter = Router();
 export const criancaRouter = Router();
+export const professorRouter = Router();
 
 // Cadastrar
 responsavelRouter.post("/cadastrar", responsavelCtrl.cadastrarResponsavel);
@@ -29,3 +32,14 @@ criancaRouter.get("/:id", criancaCtrl.buscarPorId);
 criancaRouter.delete("/:id", criancaCtrl.deletarCrianca);
 // Atualizar
 criancaRouter.patch("/:id", criancaCtrl.atualizarCrianca);
+
+// Cadastrar
+professorRouter.post("/cadastrar", professorCtrl.cadastrarProfessor);
+// Buscar todos
+professorRouter.get("/todos", professorCtrl.buscarTodos);
+// Buscar por CPF
+professorRouter.get("/:cpf", professorCtrl.buscarPorCPF);
+// Deletar
+professorRouter.delete("/:cpf", professorCtrl.deletarProfessor);
+// Atualizar
+professorRouter.patch("/:cpf", professorCtrl.atualizarProfessor)

@@ -71,7 +71,10 @@ export const validarRestricao = async (
   return true;
 };
 
-export const validarCPFDaResponsavel = async (cpf: string, res: Response): Promise<boolean> => {
+export const validarCPFDaResponsavel = async (
+  cpf: string,
+  res: Response
+): Promise<boolean> => {
   if (cpf && !validarCPF(cpf)) {
     res.status(400).json({ error: "CPF do responsável inválido." });
     return false;
@@ -109,11 +112,27 @@ export const validarCPFDaCrianca = async (
 
   const cpfResponsavelExiste = await verificarExistenciaCpfResponsavel(cpf);
   if (cpfResponsavelExiste) {
-    res
-      .status(400)
-      .json({
-        error: "CPF da criança não pode ser o mesmo de um responsável.",
-      });
+    res.status(400).json({
+      error: "CPF da criança não pode ser o mesmo de um responsável.",
+    });
+    return false;
+  }
+
+  return true;
+};
+
+export const validarCPFProfessor = async (
+  cpf: string,
+  res: Response
+): Promise<boolean> => {
+  if (cpf && !validarCPF(cpf)) {
+    res.status(400).json({ error: "CPF inválido." });
+    return false;
+  }
+
+  const cpfCriancaExiste = await verificarExistenciaCpfCrianca(cpf);
+  if (cpfCriancaExiste) {
+    res.status(400).json({ error: "CPF não pode ser o mesmo de uma criança." });
     return false;
   }
 

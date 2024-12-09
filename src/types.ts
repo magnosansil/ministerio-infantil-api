@@ -20,8 +20,36 @@ export interface Crianca {
   cpf?: string | null;
   rg?: string | null;
   fk_cpf_responsavel: string;
-  relacionamento_1: string; 
-  cpf_responsavel_2?: string | null; 
-  relacionamento_2?: string | null; 
-  sexo: "M" | "F" | "Outro"; 
+  relacionamento_1: string;
+  cpf_responsavel_2?: string | null;
+  relacionamento_2?: string | null;
+  sexo: "M" | "F" | "Outro";
+}
+
+export interface Professor {
+  cpf: string;
+  nome: string;
+  telefone: string;
+  rg: string;
+  data_nascimento: Date;
+  cep: string;
+  endereco: string;
+  sexo: "M" | "F" | "Outro";
+  id_turma?: number;
+}
+
+export interface Turma {
+  id_turma: number;
+  idade_minima: number;
+  idade_maxima: number;
+  quantidade: number;
+  cpf_professor?: string;
+}
+
+export interface Aula {
+  data: Date;
+  flag_presenca?: 1 | 0;
+  cpf_professor: string;
+  id_assunto: number;
+  id_turma: number;
 }
