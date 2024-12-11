@@ -131,7 +131,7 @@ export class ProfessorController {
       if (aulasAssociadas.length > 0) {
         return res.status(400).json({
           error:
-            "Erro ao cadastrar professor: Ele está associado a uma ou mais aulas.",
+            "Erro ao deletar professor: Ele está associado a uma ou mais aulas.",
         });
       }
       const query = `DELETE FROM professor WHERE cpf = ?`;

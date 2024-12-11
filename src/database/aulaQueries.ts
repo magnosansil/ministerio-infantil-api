@@ -9,3 +9,9 @@ export const buscarAulasPorCpfProfessor = async (
   const [rows] = await pool.query<RowDataPacket[]>(query, [cpf]);
   return rows as Aula[];
 };
+
+export const buscarAulasPorIdTurma = async (cpf: string): Promise<Aula[]> => {
+  const query = "SELECT * FROM aula WHERE id_turma = ?";
+  const [rows] = await pool.query<RowDataPacket[]>(query, [cpf]);
+  return rows as Aula[];
+};
