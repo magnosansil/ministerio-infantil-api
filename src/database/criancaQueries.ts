@@ -64,7 +64,9 @@ export const verificarExistenciaCpfResponsavel = async (
   return rows.length > 0;
 };
 
-export const buscarCriancaPorId = async (id: number): Promise<Crianca | null> => {
+export const buscarCriancaPorId = async (
+  id: number
+): Promise<Crianca | null> => {
   const query = "SELECT * FROM crianca WHERE id = ?";
   const [rows] = await pool.query<RowDataPacket[]>(query, [id]);
   return rows.length > 0 ? (rows[0] as Crianca) : null;
@@ -73,6 +75,6 @@ export const buscarCriancaPorId = async (id: number): Promise<Crianca | null> =>
 export const deletarCriancaPorId = async (id: number): Promise<boolean> => {
   const query = "DELETE FROM crianca WHERE id = ?";
   const [result] = await pool.query(query, [id]);
-    
+
   return (result as any).affectedRows > 0;
 };

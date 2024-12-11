@@ -8,7 +8,9 @@ export const buscarTodosProfessores = async (): Promise<Professor[]> => {
   return professores as Professor[];
 };
 
-export const buscarProfessorPorCPF = async (cpf: string): Promise<Professor | null> => {
+export const buscarProfessorPorCPF = async (
+  cpf: string
+): Promise<Professor | null> => {
   const query = "SELECT * FROM professor WHERE cpf = ?";
   const [professor] = await pool.query<RowDataPacket[]>(query, [cpf]);
   return professor.length > 0 ? (professor[0] as Professor) : null;

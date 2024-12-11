@@ -42,4 +42,4 @@ professorRouter.get("/:cpf", professorCtrl.buscarPorCPF);
 // Deletar
 professorRouter.delete("/:cpf", professorCtrl.deletarProfessor);
 // Atualizar
-professorRouter.patch("/:cpf", professorCtrl.atualizarProfessor)
+professorRouter.patch("/:cpf", professorCtrl.atualizarProfessor);
