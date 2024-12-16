@@ -3,16 +3,22 @@ import { ResponsavelController } from "../controllers/responsavelController";
 import { CriancaController } from "../controllers/criancaController";
 import { ProfessorController } from "../controllers/professorController";
 import { TurmaController } from "../controllers/turmaController";
+import { DoencaController } from "../controllers/doencaController";
+import { RestricaoController } from "../controllers/restricaoController";
 
 const responsavelCtrl = new ResponsavelController();
 const criancaCtrl = new CriancaController();
 const professorCtrl = new ProfessorController();
 const turmaCtrl = new TurmaController();
+const doencaCtrl = new DoencaController();
+const restricaoCtrl = new RestricaoController();
 
 export const responsavelRouter = Router();
 export const criancaRouter = Router();
 export const professorRouter = Router();
 export const turmaRouter = Router();
+export const doencaRouter = Router();
+export const restricaoRouter = Router();
 
 // Cadastrar
 responsavelRouter.post("/cadastrar", responsavelCtrl.cadastrarResponsavel);
@@ -57,3 +63,13 @@ turmaRouter.get("/:id", turmaCtrl.buscarPorId);
 turmaRouter.delete("/:id", turmaCtrl.deletarTurma);
 // Atualizar
 turmaRouter.patch("/:id", turmaCtrl.atualizarTurma);
+
+// Buscar todas
+doencaRouter.get("/todos", doencaCtrl.buscarTodas);
+// Buscar por ID
+doencaRouter.get("/:id", doencaCtrl.buscarPorId);
+
+// Buscar todas
+restricaoRouter.get("/todos", restricaoCtrl.buscarTodas);
+// Buscar por ID
+restricaoRouter.get("/:id", restricaoCtrl.buscarPorId);

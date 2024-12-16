@@ -8,8 +8,8 @@ export class TurmaController {
   // Buscar Todas
   buscarTodas = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const professores = await buscarTodasTurmas();
-      return res.status(200).json(professores);
+      const turmas = await buscarTodasTurmas();
+      return res.status(200).json(turmas);
     } catch (e) {
       console.error(e);
       return res.status(500).json({ message: "Erro ao buscar turmas." });

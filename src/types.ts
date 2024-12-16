@@ -53,3 +53,15 @@ export interface Aula {
   id_assunto: number;
   id_turma: number;
 }
+
+export interface Restricao {
+  id_restricao: number;
+  nome: string;
+  tipo: string;
+}
+
+export interface Doenca {
+  id_doenca: number;
+  nome: string;
+  tipo: string;
+}

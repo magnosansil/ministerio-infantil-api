@@ -4,6 +4,8 @@ import {
   criancaRouter,
   professorRouter,
   turmaRouter,
+  doencaRouter,
+  restricaoRouter,
 } from "./routes/routes";
 import dotenv from "dotenv";
 
@@ -18,6 +20,8 @@ app.use("/responsavel", responsavelRouter);
 app.use("/crianca", criancaRouter);
 app.use("/professor", professorRouter);
 app.use("/turma", turmaRouter);
+app.use("/doenca", doencaRouter);
+app.use("/restricao", restricaoRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
