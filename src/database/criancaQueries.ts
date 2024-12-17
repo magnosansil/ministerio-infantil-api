@@ -1,11 +1,12 @@
 import { pool } from "../database";
 import { RowDataPacket } from "mysql2";
 import { Crianca } from "../types";
+import { ordenarCrianca } from "../utils/ordenadores";
 
 export const buscarTodasCriancas = async (): Promise<Crianca[]> => {
   const query = "SELECT * FROM crianca";
   const [rows] = await pool.query<RowDataPacket[]>(query);
-  return rows as Crianca[];
+  return rows.map(row => ordenarCrianca(row as Crianca));
 };
 
 export const verificarExistenciaResponsavel = async (
@@ -69,7 +70,8 @@ export const buscarCriancaPorId = async (
 ): Promise<Crianca | null> => {
   const query = "SELECT * FROM crianca WHERE id = ?";
   const [rows] = await pool.query<RowDataPacket[]>(query, [id]);
-  return rows.length > 0 ? (rows[0] as Crianca) : null;
+  const crianca = rows.length > 0 ? (rows[0] as Crianca) : null;
+  return crianca ? ordenarCrianca(crianca) : null;
 };
 
 export const deletarCriancaPorId = async (id: number): Promise<boolean> => {
