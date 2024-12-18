@@ -35,7 +35,6 @@ export interface Professor {
   cep: string;
   endereco: string;
   sexo: "M" | "F" | "Outro";
-  id_turma?: number;
 }
 
 export interface Turma {

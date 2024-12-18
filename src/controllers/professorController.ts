@@ -45,28 +45,12 @@ export class ProfessorController {
     req: Request,
     res: Response
   ): Promise<Response> => {
-    const {
-      cpf,
-      nome,
-      telefone,
-      rg,
-      sexo,
-      cep,
-      endereco,
-      data_nascimento,
-      id_turma,
-    } = req.body;
+    const { cpf, nome, telefone, rg, sexo, cep, endereco, data_nascimento } =
+      req.body;
 
     if (!verificarCPF(cpf, res)) return res;
 
     if (!(await validarCPFProfessor(cpf, res))) return res;
-
-    if (id_turma) {
-      const turma = await buscarTurmaPorId(id_turma);
-      if (!turma) {
-        return res.status(400).json({ message: "Turma não encontrada." });
-      }
-    }
 
     if (
       !cpf ||
@@ -83,7 +67,7 @@ export class ProfessorController {
 
     try {
       const query = `
-      INSERT INTO professor (cpf, nome, telefone, rg, sexo, cep, endereco, data_nascimento, id_turma)
+      INSERT INTO professor (cpf, nome, telefone, rg, sexo, cep, endereco, data_nascimento)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -96,7 +80,6 @@ export class ProfessorController {
         cep,
         endereco,
         data_nascimento,
-        id_turma || null,
       ]);
 
       return res
@@ -153,16 +136,8 @@ export class ProfessorController {
     res: Response
   ): Promise<Response> => {
     const { cpf } = req.params;
-    const {
-      nome,
-      telefone,
-      rg,
-      sexo,
-      cep,
-      endereco,
-      data_nascimento,
-      id_turma,
-    } = req.body;
+    const { nome, telefone, rg, sexo, cep, endereco, data_nascimento } =
+      req.body;
 
     if (!verificarCPF(cpf, res)) return res;
 
@@ -172,17 +147,10 @@ export class ProfessorController {
         return res.status(404).json({ message: "Professor não encontrado." });
       }
 
-      if (id_turma) {
-        const turma = await buscarTurmaPorId(id_turma);
-        if (!turma) {
-          return res.status(400).json({ message: "Turma não encontrada." });
-        }
-      }
-
       const query = `
       UPDATE professor
       SET
-        nome = ?, telefone = ?, rg = ?, sexo = ?, cep = ?, endereco = ?, data_nascimento = ?, id_turma = ?
+        nome = ?, telefone = ?, rg = ?, sexo = ?, cep = ?, endereco = ?, data_nascimento = ?
       WHERE cpf = ?
     `;
 
@@ -194,7 +162,6 @@ export class ProfessorController {
         cep || professor.cep,
         endereco || professor.endereco,
         data_nascimento || professor.data_nascimento,
-        id_turma || professor.id_turma,
         cpf,
       ]);
 
